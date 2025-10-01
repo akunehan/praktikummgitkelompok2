@@ -3,8 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TruthGuard AI - Cek Berita Hoax dengan AI</title>
+    <title>TruthGuard AI - Platform Verifikasi Berita Terpercaya</title>
     <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-light: #38bdf8;
+            --primary-lighter: #7dd3fc;
+            --secondary: #0c4a6e;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,17 +24,27 @@
         }
 
         body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 25%, #7dd3fc 50%, #bae6fd 75%, #e0f2fe 100%);
-            color: #0c4a6e;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 25%, var(--primary-lighter) 50%, #bae6fd 75%, #e0f2fe 100%);
+            color: var(--secondary);
             overflow-x: hidden;
-            position: relative;
             min-height: 100vh;
+            position: relative;
         }
 
-        body::before {
-            content: '';
+        /* Background Effects */
+        .bg-effects {
             position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .animated-gradient {
+            position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
@@ -31,42 +53,149 @@
                 radial-gradient(circle at 20% 50%, rgba(56, 189, 248, 0.3) 0%, transparent 50%),
                 radial-gradient(circle at 80% 80%, rgba(14, 165, 233, 0.3) 0%, transparent 50%),
                 radial-gradient(circle at 40% 20%, rgba(125, 211, 252, 0.2) 0%, transparent 50%);
-            animation: float-bg 20s ease-in-out infinite;
-            z-index: -1;
+            animation: floatBg 20s ease-in-out infinite;
         }
 
-        @keyframes float-bg {
+        @keyframes floatBg {
             0%, 100% { transform: translate(0, 0) rotate(0deg); }
             33% { transform: translate(30px, -50px) rotate(120deg); }
             66% { transform: translate(-20px, 20px) rotate(240deg); }
         }
 
-        .glass {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(14, 165, 233, 0.2);
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
         }
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 80px;
-            position: fixed;
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(5px);
+            animation: floatShape 15s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+        }
+
+        .shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 15%;
+            animation-delay: -5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            left: 50%;
+            animation-delay: -10s;
+        }
+
+        @keyframes floatShape {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .particles {
+            position: absolute;
             width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: floatParticle 15s infinite;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .morph-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(56, 189, 248, 0.15));
+            filter: blur(40px);
+            animation: morph 8s ease-in-out infinite;
+        }
+
+        @keyframes morph {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+        }
+
+        .morph-1 {
+            width: 400px;
+            height: 400px;
+            top: 10%;
+            right: 10%;
+        }
+
+        .morph-2 {
+            width: 300px;
+            height: 300px;
+            bottom: 15%;
+            left: 5%;
+            animation-delay: -4s;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid var(--glass-border);
             z-index: 1000;
             transition: all 0.3s ease;
         }
 
-        .navbar.scrolled {
+        header.scrolled {
             background: rgba(255, 255, 255, 0.25);
             box-shadow: 0 8px 32px rgba(14, 165, 233, 0.15);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 80px;
         }
 
         .logo {
@@ -90,13 +219,13 @@
             50% { transform: scale(1.1); }
         }
 
-        .nav-links {
+        nav ul {
             display: flex;
             gap: 40px;
             list-style: none;
         }
 
-        .nav-links a {
+        nav a {
             text-decoration: none;
             color: white;
             font-weight: 600;
@@ -105,7 +234,7 @@
             padding: 8px 0;
         }
 
-        .nav-links a::after {
+        nav a::after {
             content: '';
             position: absolute;
             bottom: 0;
@@ -116,15 +245,15 @@
             transition: width 0.3s;
         }
 
-        .nav-links a:hover::after {
+        nav a:hover::after {
             width: 100%;
         }
 
-        .nav-links a:hover {
+        nav a:hover {
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
-        .cta-button {
+        .cta-btn {
             padding: 12px 32px;
             background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(10px);
@@ -137,85 +266,29 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .cta-button:hover {
+        .cta-btn:hover {
             background: white;
-            color: #0ea5e9;
+            color: var(--primary);
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
         }
 
+        /* Hero Section */
         .hero {
-            padding: 160px 80px 100px;
+            padding: 160px 0 100px;
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            min-height: 100vh;
-            position: relative;
         }
 
-        .floating-orbs {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            animation: float-orb 15s ease-in-out infinite;
-        }
-
-        .orb:nth-child(1) {
-            width: 300px;
-            height: 300px;
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .orb:nth-child(2) {
-            width: 200px;
-            height: 200px;
-            top: 60%;
-            right: 15%;
-            animation-delay: -5s;
-        }
-
-        .orb:nth-child(3) {
-            width: 150px;
-            height: 150px;
-            bottom: 20%;
-            left: 50%;
-            animation-delay: -10s;
-        }
-
-        @keyframes float-orb {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
         }
 
         .hero-content {
-            flex: 1;
-            max-width: 600px;
-            z-index: 1;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            padding: 8px 20px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50px;
-            color: white;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 20px;
             animation: slideInLeft 0.8s ease-out;
         }
 
@@ -230,14 +303,26 @@
             }
         }
 
-        .hero-title {
+        .badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        h1 {
             font-size: 72px;
             font-weight: 900;
             line-height: 1.1;
             margin-bottom: 20px;
             color: white;
             text-shadow: 0 4px 20px rgba(14, 165, 233, 0.4);
-            animation: slideInLeft 0.8s ease-out 0.2s both;
         }
 
         .hero-subtitle {
@@ -246,19 +331,17 @@
             margin-bottom: 40px;
             line-height: 1.6;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            animation: slideInLeft 0.8s ease-out 0.4s both;
         }
 
-        .hero-buttons {
+        .btn-group {
             display: flex;
             gap: 20px;
-            animation: slideInLeft 0.8s ease-out 0.6s both;
         }
 
-        .primary-btn {
+        .btn-primary {
             padding: 18px 48px;
             background: white;
-            color: #0ea5e9;
+            color: var(--primary);
             border: none;
             border-radius: 50px;
             font-size: 18px;
@@ -268,12 +351,12 @@
             box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
         }
 
-        .primary-btn:hover {
+        .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 32px rgba(255, 255, 255, 0.4);
         }
 
-        .secondary-btn {
+        .btn-secondary {
             padding: 18px 48px;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
@@ -286,31 +369,28 @@
             transition: all 0.3s;
         }
 
-        .secondary-btn:hover {
+        .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.25);
             transform: translateY(-3px);
         }
 
-        .hero-image {
-            flex: 1;
+        .hero-visual {
             display: flex;
             justify-content: center;
-            align-items: center;
-            z-index: 1;
         }
 
-        .floating-card {
-            background: rgba(255, 255, 255, 0.15);
+        .feature-card-hero {
+            background: var(--glass-bg);
             backdrop-filter: blur(30px);
             padding: 50px;
             border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid var(--glass-border);
             box-shadow: 0 20px 60px rgba(14, 165, 233, 0.3);
-            animation: float-card 4s ease-in-out infinite;
+            animation: floatCard 4s ease-in-out infinite;
             position: relative;
         }
 
-        .floating-card::before {
+        .feature-card-hero::before {
             content: '';
             position: absolute;
             top: -2px;
@@ -326,28 +406,20 @@
             background-size: 300% 300%;
             border-radius: 40px;
             z-index: -1;
-            animation: gradient-flow 4s ease infinite;
+            animation: gradientFlow 4s ease infinite;
         }
 
-        @keyframes gradient-flow {
+        @keyframes gradientFlow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        @keyframes float-card {
-            0%, 100% { 
-                transform: translateY(0) scale(1);
-            }
-            25% {
-                transform: translateY(-15px) scale(1.02);
-            }
-            50% { 
-                transform: translateY(-20px) scale(1.03);
-            }
-            75% {
-                transform: translateY(-15px) scale(1.02);
-            }
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0) scale(1); }
+            25% { transform: translateY(-15px) scale(1.02); }
+            50% { transform: translateY(-20px) scale(1.03); }
+            75% { transform: translateY(-15px) scale(1.02); }
         }
 
         .icon-grid {
@@ -356,7 +428,7 @@
             gap: 20px;
         }
 
-        .icon-item {
+        .icon-box {
             background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(10px);
             padding: 25px;
@@ -365,14 +437,14 @@
             font-size: 16px;
             font-weight: 700;
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid var(--glass-border);
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             cursor: pointer;
             position: relative;
             overflow: hidden;
         }
 
-        .icon-item::before {
+        .icon-box::before {
             content: '';
             position: absolute;
             top: 50%;
@@ -385,78 +457,61 @@
             transition: width 0.6s, height 0.6s;
         }
 
-        .icon-item:hover::before {
+        .icon-box:hover::before {
             width: 300px;
             height: 300px;
         }
 
-        .icon-item:hover {
+        .icon-box:hover {
             background: rgba(255, 255, 255, 0.35);
             transform: translateY(-8px) scale(1.05) rotate(2deg);
             box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
         }
 
-        .icon-item:nth-child(1) {
-            animation: float-icon 3s ease-in-out infinite;
-            animation-delay: 0s;
+        .icon-box:nth-child(1) { animation: floatIcon 3s ease-in-out infinite 0s; }
+        .icon-box:nth-child(2) { animation: floatIcon 3s ease-in-out infinite 0.5s; }
+        .icon-box:nth-child(3) { animation: floatIcon 3s ease-in-out infinite 1s; }
+        .icon-box:nth-child(4) { animation: floatIcon 3s ease-in-out infinite 1.5s; }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        .icon-item:nth-child(2) {
-            animation: float-icon 3s ease-in-out infinite;
-            animation-delay: 0.5s;
-        }
-
-        .icon-item:nth-child(3) {
-            animation: float-icon 3s ease-in-out infinite;
-            animation-delay: 1s;
-        }
-
-        .icon-item:nth-child(4) {
-            animation: float-icon 3s ease-in-out infinite;
-            animation-delay: 1.5s;
-        }
-
-        @keyframes float-icon {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        .section {
-            padding: 100px 80px;
+        /* Section */
+        section {
+            padding: 100px 0;
             opacity: 0;
             transform: translateY(50px);
             transition: opacity 0.8s, transform 0.8s;
-            position: relative;
         }
 
-        .section.visible {
+        section.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .section-title {
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h2 {
             font-size: 56px;
             font-weight: 900;
-            text-align: center;
-            margin-bottom: 20px;
             color: white;
             text-shadow: 0 4px 20px rgba(14, 165, 233, 0.4);
+            margin-bottom: 20px;
         }
 
         .section-subtitle {
-            text-align: center;
             color: rgba(255, 255, 255, 0.9);
             font-size: 20px;
-            margin-bottom: 60px;
             max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto;
         }
 
+        /* Features Grid */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -464,11 +519,11 @@
         }
 
         .feature-card {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--glass-bg);
             backdrop-filter: blur(30px);
             padding: 40px;
             border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid var(--glass-border);
             box-shadow: 0 10px 40px rgba(14, 165, 233, 0.2);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
@@ -489,10 +544,10 @@
 
         .feature-card:hover::before {
             opacity: 1;
-            animation: rotate-glow 3s linear infinite;
+            animation: rotateGlow 3s linear infinite;
         }
 
-        @keyframes rotate-glow {
+        @keyframes rotateGlow {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
@@ -514,7 +569,7 @@
             justify-content: center;
             font-size: 40px;
             margin-bottom: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid var(--glass-border);
             transition: all 0.3s;
         }
 
@@ -523,7 +578,7 @@
             background: rgba(255, 255, 255, 0.4);
         }
 
-        .feature-title {
+        h3 {
             font-size: 24px;
             font-weight: 800;
             margin-bottom: 15px;
@@ -536,19 +591,19 @@
             font-size: 15px;
         }
 
-        .stats-section {
-            background: rgba(255, 255, 255, 0.15);
+        /* Stats Section */
+        .stats-wrapper {
+            background: var(--glass-bg);
             backdrop-filter: blur(30px);
             padding: 80px;
             border-radius: 40px;
-            margin: 0 80px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid var(--glass-border);
             box-shadow: 0 20px 60px rgba(14, 165, 233, 0.3);
             position: relative;
             overflow: hidden;
         }
 
-        .stats-section::before {
+        .stats-wrapper::before {
             content: '';
             position: absolute;
             top: 0;
@@ -594,23 +649,26 @@
             font-weight: 600;
         }
 
-        .how-it-works {
-            display: flex;
+        /* How It Works */
+        .how-it-works-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 60px;
             align-items: center;
         }
 
         .steps {
-            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
         }
 
         .step {
             display: flex;
             gap: 25px;
-            margin-bottom: 40px;
-            transition: all 0.3s;
             padding: 20px;
             border-radius: 20px;
+            transition: all 0.3s;
         }
 
         .step:hover {
@@ -639,14 +697,11 @@
         .step:hover .step-number {
             transform: scale(1.1) rotate(360deg);
             background: white;
-            color: #0ea5e9;
+            color: var(--primary);
         }
 
         .step-content h3 {
-            font-size: 24px;
             margin-bottom: 12px;
-            color: white;
-            font-weight: 800;
         }
 
         .step-content p {
@@ -654,29 +709,63 @@
             line-height: 1.7;
         }
 
-        .demo-area {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.15);
+        /* Demo Area */
+        .demo-box {
+            background: var(--glass-bg);
             backdrop-filter: blur(30px);
             padding: 45px;
             border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid var(--glass-border);
             box-shadow: 0 20px 60px rgba(14, 165, 233, 0.25);
         }
 
-        .demo-area h3 {
-            color: white;
-            font-weight: 800;
-            font-size: 26px;
+        .demo-box h3 {
             margin-bottom: 25px;
         }
 
-        .input-box {
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .tab.active {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        textarea {
             width: 100%;
             padding: 20px;
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid var(--glass-border);
             border-radius: 20px;
             font-size: 16px;
             margin-bottom: 20px;
@@ -684,24 +773,109 @@
             min-height: 150px;
             color: white;
             transition: all 0.3s;
+            font-family: inherit;
         }
 
-        .input-box::placeholder {
+        textarea::placeholder {
             color: rgba(255, 255, 255, 0.6);
         }
 
-        .input-box:focus {
+        textarea:focus {
             outline: none;
             border-color: rgba(255, 255, 255, 0.6);
             background: rgba(255, 255, 255, 0.25);
             box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
         }
 
-        .check-btn {
+        .upload-zone {
+            width: 100%;
+            min-height: 200px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 3px dashed rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-zone:hover {
+            border-color: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.02);
+        }
+
+        .upload-zone.dragover {
+            border-color: white;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .upload-text {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .upload-subtext {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .preview {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .preview.show {
+            display: block;
+        }
+
+        .preview img {
+            max-width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .remove-btn {
+            margin-top: 10px;
+            padding: 8px 20px;
+            background: rgba(239, 68, 68, 0.8);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: rgba(220, 38, 38, 0.9);
+            transform: scale(1.05);
+        }
+
+        .check-button {
             width: 100%;
             padding: 18px;
             background: white;
-            color: #0ea5e9;
+            color: var(--primary);
             border: none;
             border-radius: 20px;
             font-size: 18px;
@@ -711,47 +885,350 @@
             box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
         }
 
-        .check-btn:hover {
+        .check-button:hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 32px rgba(255, 255, 255, 0.4);
         }
 
-        .cta-section {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(30px);
-            padding: 100px 80px;
-            border-radius: 40px;
-            margin: 0 80px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 20px 60px rgba(14, 165, 233, 0.3);
+        .check-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
-        .cta-section h2 {
-            font-size: 52px;
-            font-weight: 900;
-            margin-bottom: 20px;
+        /* News Ticker */
+        .ticker {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 20px 0;
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+            overflow: hidden;
+        }
+
+        .ticker-track {
+            display: flex;
+            animation: scroll 30s linear infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .ticker-item {
             color: white;
-            text-shadow: 0 4px 20px rgba(14, 165, 233, 0.4);
+            padding: 0 50px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .cta-section p {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.9);
+        .ticker-item::before {
+            content: '•';
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .testimonial {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            padding: 35px;
+            border-radius: 25px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s;
+            position: relative;
+        }
+
+        .testimonial:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 80px;
+            color: rgba(255, 255, 255, 0.3);
+            font-family: Georgia, serif;
+        }
+
+        .testimonial-text {
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.7;
             margin-bottom: 20px;
-            line-height: 1.8;
+            font-style: italic;
         }
 
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+            font-size: 20px;
+        }
+
+        .author-info h4 {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 3px;
+            font-size: 16px;
+        }
+
+        .author-info p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+        }
+
+        .rating {
+            color: #fbbf24;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            border-radius: 30px;
+            padding: 50px;
+            max-width: 600px;
+            width: 90%;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 60px rgba(14, 165, 233, 0.4);
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .result-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 25px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .result-title {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .result-score {
+            text-align: center;
+            font-size: 48px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .result-desc {
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        .result-details {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 25px;
+        }
+
+        .detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .detail:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .detail-value {
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .status-verified {
+            background: rgba(16, 185, 129, 0.3);
+            border: 2px solid rgba(16, 185, 129, 0.6);
+            color: #10b981;
+        }
+
+        .status-suspicious {
+            background: rgba(245, 158, 11, 0.3);
+            border: 2px solid rgba(245, 158, 11, 0.6);
+            color: #f59e0b;
+        }
+
+        .status-hoax {
+            background: rgba(239, 68, 68, 0.3);
+            border: 2px solid rgba(239, 68, 68, 0.6);
+            color: #ef4444;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), #3b82f6);
+            border-radius: 10px;
+            transition: width 1s ease;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .tag {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Footer */
         footer {
-            padding: 80px 80px 40px;
+            padding: 80px 0 40px;
             background: rgba(12, 74, 110, 0.3);
             backdrop-filter: blur(20px);
             color: white;
             margin-top: 100px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid var(--glass-border);
         }
 
-        .footer-content {
+        .footer-grid {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 60px;
@@ -761,7 +1238,6 @@
         .footer-logo {
             font-size: 28px;
             font-weight: 900;
-            color: white;
             margin-bottom: 15px;
             text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
         }
@@ -800,238 +1276,443 @@
 
         .footer-bottom {
             padding-top: 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid var(--glass-border);
             text-align: center;
             color: rgba(255, 255, 255, 0.8);
         }
 
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container, .header-content {
+                padding: 0 40px;
+            }
+
+            .hero-grid, .how-it-works-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            h1 {
+                font-size: 56px;
+            }
+
+            h2 {
+                font-size: 42px;
+            }
+        }
+
         @media (max-width: 768px) {
-            .navbar, .hero, .section {
-                padding-left: 20px;
-                padding-right: 20px;
+            .container, .header-content {
+                padding: 0 20px;
+            }
+
+            nav ul {
+                display: none;
             }
 
             .hero {
-                flex-direction: column;
-                text-align: center;
+                padding: 120px 0 60px;
             }
 
-            .hero-title {
-                font-size: 48px;
+            h1 {
+                font-size: 42px;
             }
 
-            .features-grid, .stats-grid {
+            h2 {
+                font-size: 36px;
+            }
+
+            .features-grid, .stats-grid, .testimonials-grid {
                 grid-template-columns: 1fr;
             }
 
-            .how-it-works {
-                flex-direction: column;
-            }
-
-            .footer-content {
+            .footer-grid {
                 grid-template-columns: 1fr;
             }
 
-            .stats-section, .cta-section {
-                margin: 0 20px;
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .stats-wrapper {
+                padding: 40px 20px;
+            }
+        }
+
+        @keyframes ripple-effect {
+            to {
+                transform: scale(4);
+                opacity: 0;
             }
         }
     </style>
 </head>
 <body>
-    <div class="floating-orbs">
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
+    <!-- Background Effects -->
+    <div class="bg-effects">
+        <div class="animated-gradient"></div>
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        <div class="particles" id="particles"></div>
+        <div class="morph-shape morph-1"></div>
+        <div class="morph-shape morph-2"></div>
     </div>
 
-    <nav class="navbar">
-        <div class="logo">TruthGuard AI</div>
-        <ul class="nav-links">
-            <li><a href="#home">Beranda</a></li>
-            <li><a href="#features">Fitur</a></li>
-            <li><a href="#how">Cara Kerja</a></li>
-            <li><a href="#about">Tentang</a></li>
-        </ul>
-        <button class="cta-button">Mulai Sekarang</button>
-    </nav>
+    <!-- Header -->
+    <header id="header">
+        <div class="header-content">
+            <div class="logo">TruthGuard AI</div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Beranda</a></li>
+                    <li><a href="#features">Fitur</a></li>
+                    <li><a href="#how">Cara Kerja</a></li>
+                    <li><a href="#about">Tentang</a></li>
+                </ul>
+            </nav>
+            <button class="cta-btn">Mulai Sekarang</button>
+        </div>
+    </header>
 
+    <!-- Hero Section -->
     <section class="hero" id="home">
-        <div class="hero-content">
-            <div class="hero-badge">✨ Teknologi AI Terdepan</div>
-            <h1 class="hero-title">Lindungi Diri dari Berita Hoax</h1>
-            <p class="hero-subtitle">Teknologi AI terdepan untuk memverifikasi kebenaran berita dalam hitungan detik. Akurat, cepat, dan terpercaya.</p>
-            <div class="hero-buttons">
-                <button class="primary-btn">Cek Berita Sekarang</button>
-                <button class="secondary-btn">Pelajari Lebih Lanjut</button>
-            </div>
-        </div>
-        <div class="hero-image">
-            <div class="floating-card">
-                <div class="icon-grid">
-                    <div class="icon-item">🔍 ANALISIS AI</div>
-                    <div class="icon-item">✓ VERIFIKASI CEPAT</div>
-                    <div class="icon-item">📊 AKURASI TINGGI</div>
-                    <div class="icon-item">🛡️ TERPERCAYA</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="features">
-        <h2 class="section-title">Mengapa Memilih TruthGuard AI?</h2>
-        <p class="section-subtitle">Platform AI terdepan dengan teknologi machine learning untuk deteksi hoax yang akurat dan real-time</p>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🤖</div>
-                <h3 class="feature-title">AI Canggih</h3>
-                <p class="feature-desc">Menggunakan teknologi NLP dan deep learning untuk menganalisis pola berita hoax dengan tingkat akurasi hingga 95%</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3 class="feature-title">Verifikasi Instan</h3>
-                <p class="feature-desc">Hasil analisis dalam hitungan detik. Tidak perlu menunggu lama untuk mendapatkan kepastian</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <h3 class="feature-title">Akurasi Tinggi</h3>
-                <p class="feature-desc">Dilatih dengan jutaan data berita untuk memberikan hasil yang paling akurat dan dapat diandalkan</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📱</div>
-                <h3 class="feature-title">Multi-Platform</h3>
-                <p class="feature-desc">Akses dari mana saja - web, mobile, atau browser extension untuk kemudahan maksimal</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
-                <h3 class="feature-title">Data Aman</h3>
-                <p class="feature-desc">Privasi Anda terjamin. Semua data terenkripsi dan tidak dibagikan ke pihak ketiga</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📈</div>
-                <h3 class="feature-title">Update Berkelanjutan</h3>
-                <p class="feature-desc">Model AI kami terus diperbarui dengan pola hoax terbaru untuk akurasi yang selalu optimal</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="stats-section">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number">5M+</div>
-                    <div class="stat-label">Berita Dianalisis</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">95%</div>
-                    <div class="stat-label">Tingkat Akurasi</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">100K+</div>
-                    <div class="stat-label">Pengguna Aktif</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Layanan Tersedia</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="how">
-        <h2 class="section-title">Cara Kerja</h2>
-        <p class="section-subtitle">Proses verifikasi berita yang sederhana namun powerful dengan teknologi AI terdepan</p>
-        <div class="how-it-works">
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>Masukkan Berita</h3>
-                        <p>Copy-paste teks berita atau URL artikel yang ingin Anda verifikasi. Sistem kami mendukung berbagai format</p>
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="badge">✨ Teknologi AI Terdepan</div>
+                    <h1>Lindungi Diri dari Berita Hoax</h1>
+                    <p class="hero-subtitle">Teknologi AI terdepan untuk memverifikasi kebenaran berita dalam hitungan detik. Akurat, cepat, dan terpercaya.</p>
+                    <div class="btn-group">
+                        <button class="btn-primary">Cek Berita Sekarang</button>
+                        <button class="btn-secondary">Pelajari Lebih Lanjut</button>
                     </div>
                 </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>AI Menganalisis</h3>
-                        <p>Teknologi NLP kami akan menganalisis konten, sumber, pola bahasa, dan membandingkan dengan database berita terverifikasi</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>Dapatkan Hasil</h3>
-                        <p>Terima hasil verifikasi lengkap dengan skor kredibilitas, penjelasan detail, dan saran tindak lanjut</p>
+                <div class="hero-visual">
+                    <div class="feature-card-hero">
+                        <div class="icon-grid">
+                            <div class="icon-box">🔍 ANALISIS AI</div>
+                            <div class="icon-box">✅ VERIFIKASI CEPAT</div>
+                            <div class="icon-box">📊 AKURASI TINGGI</div>
+                            <div class="icon-box">🛡️ TERPERCAYA</div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="demo-area">
-                <h3>Coba Sekarang</h3>
-                <textarea class="input-box" placeholder="Paste teks berita atau URL di sini..."></textarea>
-                <button class="check-btn">🔍 Cek Berita</button>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Mengapa Memilih TruthGuard AI?</h2>
+                <p class="section-subtitle">Platform AI terdepan dengan teknologi machine learning untuk deteksi hoax yang akurat dan real-time</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Canggih</h3>
+                    <p class="feature-desc">Menggunakan teknologi NLP dan deep learning untuk menganalisis pola berita hoax dengan tingkat akurasi hingga 95%</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Verifikasi Instan</h3>
+                    <p class="feature-desc">Hasil analisis dalam hitungan detik. Tidak perlu menunggu lama untuk mendapatkan kepastian</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Akurasi Tinggi</h3>
+                    <p class="feature-desc">Dilatih dengan jutaan data berita untuk memberikan hasil yang paling akurat dan dapat diandalkan</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Multi-Platform</h3>
+                    <p class="feature-desc">Akses dari mana saja - web, mobile, atau browser extension untuk kemudahan maksimal</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Data Aman</h3>
+                    <p class="feature-desc">Privasi Anda terjamin. Semua data terenkripsi dan tidak dibagikan ke pihak ketiga</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Update Berkelanjutan</h3>
+                    <p class="feature-desc">Model AI kami terus diperbarui dengan pola hoax terbaru untuk akurasi yang selalu optimal</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="section" id="about">
-        <div class="cta-section">
-            <h2>Tentang TruthGuard AI</h2>
-            <p>TruthGuard AI adalah platform verifikasi berita berbasis kecerdasan buatan yang dikembangkan untuk membantu masyarakat Indonesia dalam mengidentifikasi berita hoax dan misinformasi. Dengan teknologi Natural Language Processing (NLP) dan Deep Learning terdepan, kami berkomitmen untuk menciptakan ekosistem informasi yang lebih sehat dan terpercaya.</p>
-            <p style="margin-top: 20px;">Tim kami terdiri dari para ahli AI, jurnalis berpengalaman, dan fact-checker profesional yang bekerja sama untuk menghadirkan solusi verifikasi berita paling akurat di Indonesia.</p>
+    <!-- Stats Section -->
+    <section>
+        <div class="container">
+            <div class="stats-wrapper">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">5M+</div>
+                        <div class="stat-label">Berita Dianalisis</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Tingkat Akurasi</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100K+</div>
+                        <div class="stat-label">Pengguna Aktif</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Layanan Tersedia</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
+    <!-- How It Works Section -->
+    <section id="how">
+        <div class="container">
+            <div class="section-header">
+                <h2>Cara Kerja</h2>
+                <p class="section-subtitle">Proses verifikasi berita yang sederhana namun powerful dengan teknologi AI terdepan</p>
+            </div>
+            <div class="how-it-works-grid">
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Masukkan Berita</h3>
+                            <p>Copy-paste teks berita atau URL artikel yang ingin Anda verifikasi. Sistem kami mendukung berbagai format</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>AI Menganalisis</h3>
+                            <p>Teknologi NLP kami akan menganalisis konten, sumber, pola bahasa, dan membandingkan dengan database berita terverifikasi</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Dapatkan Hasil</h3>
+                            <p>Terima hasil verifikasi lengkap dengan skor kredibilitas, penjelasan detail, dan saran tindak lanjut</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-box">
+                    <h3>Coba Sekarang</h3>
+                    <div class="tabs">
+                        <button class="tab active" data-tab="text">📝 Teks/URL</button>
+                        <button class="tab" data-tab="image">🖼️ Screenshot</button>
+                    </div>
+                    <div class="tab-content active" id="text-tab">
+                        <textarea id="textInput" placeholder="Paste teks berita atau URL di sini..."></textarea>
+                    </div>
+                    <div class="tab-content" id="image-tab">
+                        <div class="upload-zone" id="uploadZone">
+                            <div class="upload-icon">📸</div>
+                            <div class="upload-text">Klik atau drag & drop screenshot</div>
+                            <div class="upload-subtext">Mendukung JPG, PNG, atau WEBP (Maks. 5MB)</div>
+                            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                        </div>
+                        <div class="preview" id="preview">
+                            <img id="previewImg" alt="Preview">
+                            <button class="remove-btn" id="removeBtn">🗑️ Hapus Gambar</button>
+                        </div>
+                    </div>
+                    <button class="check-button" id="checkBtn">🔍 Cek Berita</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Ticker -->
+    <section>
+        <div class="ticker">
+            <div class="ticker-track">
+                <span class="ticker-item">🚀 5M+ berita terverifikasi</span>
+                <span class="ticker-item">✅ Akurasi 95% terbukti</span>
+                <span class="ticker-item">⚡ Analisis dalam 3 detik</span>
+                <span class="ticker-item">🔒 Data 100% aman</span>
+                <span class="ticker-item">🌐 Tersedia 24/7</span>
+                <span class="ticker-item">🎯 Teknologi AI terdepan</span>
+                <span class="ticker-item">🚀 5M+ berita terverifikasi</span>
+                <span class="ticker-item">✅ Akurasi 95% terbukti</span>
+                <span class="ticker-item">⚡ Analisis dalam 3 detik</span>
+                <span class="ticker-item">🔒 Data 100% aman</span>
+                <span class="ticker-item">🌐 Tersedia 24/7</span>
+                <span class="ticker-item">🎯 Teknologi AI terdepan</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <h2>Apa Kata Pengguna Kami?</h2>
+                <p class="section-subtitle">Ribuan pengguna mempercayai TruthGuard AI untuk melindungi diri dari hoax</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <p class="testimonial-text">TruthGuard AI sangat membantu saya sebagai jurnalis untuk verifikasi cepat. Akurasinya luar biasa!</p>
+                    <div class="testimonial-author">
+                        <div class="avatar">AS</div>
+                        <div class="author-info">
+                            <h4>Anita Sari</h4>
+                            <p>Jurnalis Senior</p>
+                        </div>
+                    </div>
+                    <div class="rating">⭐⭐⭐⭐⭐</div>
+                </div>
+                <div class="testimonial">
+                    <p class="testimonial-text">Platform terbaik untuk cek berita! Sekarang saya tidak khawatir lagi menyebarkan informasi yang salah.</p>
+                    <div class="testimonial-author">
+                        <div class="avatar">BW</div>
+                        <div class="author-info">
+                            <h4>Budi Wijaya</h4>
+                            <p>Content Creator</p>
+                        </div>
+                    </div>
+                    <div class="rating">⭐⭐⭐⭐⭐</div>
+                </div>
+                <div class="testimonial">
+                    <p class="testimonial-text">User interface-nya mudah dipahami dan hasilnya sangat detail. Recommended untuk semua orang!</p>
+                    <div class="testimonial-author">
+                        <div class="avatar">CM</div>
+                        <div class="author-info">
+                            <h4>Citra Melati</h4>
+                            <p>Guru</p>
+                        </div>
+                    </div>
+                    <div class="rating">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="stats-wrapper">
+                <h2 style="text-align: center;">Tentang TruthGuard AI</h2>
+                <p style="color: rgba(255, 255, 255, 0.9); text-align: center; line-height: 1.8; margin-top: 20px;">TruthGuard AI adalah platform verifikasi berita berbasis kecerdasan buatan yang dikembangkan untuk membantu masyarakat Indonesia dalam mengidentifikasi berita hoax dan misinformasi. Dengan teknologi Natural Language Processing (NLP) dan Deep Learning terdepan, kami berkomitmen untuk menciptakan ekosistem informasi yang lebih sehat dan terpercaya.</p>
+                <p style="color: rgba(255, 255, 255, 0.9); text-align: center; line-height: 1.8; margin-top: 20px;">Tim kami terdiri dari para ahli AI, jurnalis berpengalaman, dan fact-checker profesional yang bekerja sama untuk menghadirkan solusi verifikasi berita paling akurat di Indonesia.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <div>
-                <div class="footer-logo">🛡️ TruthGuard AI</div>
-                <p class="footer-desc">Platform verifikasi berita berbasis AI yang membantu masyarakat Indonesia terhindar dari informasi hoax dan menyesatkan.</p>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">🛡️ TruthGuard AI</div>
+                    <p class="footer-desc">Platform verifikasi berita berbasis AI yang membantu masyarakat Indonesia terhindar dari informasi hoax dan menyesatkan.</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Produk</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Web App</a></li>
+                        <li><a href="#">Mobile App</a></li>
+                        <li><a href="#">Browser Extension</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Perusahaan</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Tentang Kami</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Karir</a></li>
+                        <li><a href="#">Kontak</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Bantuan</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Panduan</a></li>
+                        <li><a href="#">Privasi</a></li>
+                        <li><a href="#">Syarat & Ketentuan</a></li>
+                    </ul>
+                </div>
             </div>
-            <div>
-                <h4 class="footer-title">Produk</h4>
-                <ul class="footer-links">
-                    <li><a href="#">Web App</a></li>
-                    <li><a href="#">Mobile App</a></li>
-                    <li><a href="#">Browser Extension</a></li>
-                    <li><a href="#">API</a></li>
-                </ul>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TruthGuard AI. All rights reserved.</p>
             </div>
-            <div>
-                <h4 class="footer-title">Perusahaan</h4>
-                <ul class="footer-links">
-                    <li><a href="#">Tentang Kami</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Karir</a></li>
-                    <li><a href="#">Kontak</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="footer-title">Bantuan</h4>
-                <ul class="footer-links">
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Panduan</a></li>
-                    <li><a href="#">Privasi</a></li>
-                    <li><a href="#">Syarat & Ketentuan</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 TruthGuard AI. All rights reserved.</p>
         </div>
     </footer>
 
+    <!-- Result Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeBtn">×</button>
+            <div class="result-icon" id="resultIcon">✅</div>
+            <h2 class="result-title" id="resultTitle">Hasil Analisis</h2>
+            <div class="result-score" id="resultScore">85%</div>
+            <p class="result-desc" id="resultDesc">Berita ini memiliki tingkat kredibilitas tinggi</p>
+            <div class="result-details">
+                <div class="detail">
+                    <span class="detail-label">Status Verifikasi</span>
+                    <span class="detail-value">
+                        <span class="status-badge status-verified" id="statusBadge">Terverifikasi</span>
+                    </span>
+                </div>
+                <div class="detail">
+                    <span class="detail-label">Tingkat Kepercayaan</span>
+                    <span class="detail-value" id="trustLevel">Tinggi</span>
+                </div>
+                <div class="detail">
+                    <span class="detail-label">Sumber Kredibel</span>
+                    <span class="detail-value" id="sourceCredible">Ya</span>
+                </div>
+                <div class="detail">
+                    <span class="detail-label">Waktu Analisis</span>
+                    <span class="detail-value" id="analysisTime">2.3 detik</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <div class="tags">
+                <span class="tag">🔍 Deep Analysis</span>
+                <span class="tag">📊 NLP Verified</span>
+                <span class="tag">🎯 Cross-Referenced</span>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Navbar scroll effect
+        // Generate particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Header scroll effect
         window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
+            const header = document.getElementById('header');
             if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
+                header.classList.add('scrolled');
             } else {
-                navbar.classList.remove('scrolled');
+                header.classList.remove('scrolled');
             }
         });
 
-        // Intersection Observer untuk animasi fade-in
+        // Intersection Observer for sections
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1045,12 +1726,11 @@
             });
         }, observerOptions);
 
-        // Observe semua section
-        document.querySelectorAll('.section').forEach(section => {
+        document.querySelectorAll('section').forEach(section => {
             observer.observe(section);
         });
 
-        // Smooth scroll untuk navigasi
+        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1064,68 +1744,238 @@
             });
         });
 
-        // Demo check button dengan animasi
-        document.querySelector('.check-btn').addEventListener('click', function() {
-            const input = document.querySelector('.input-box').value;
-            const btn = this;
-            
-            if (input.trim()) {
-                btn.textContent = '⏳ Menganalisis...';
-                btn.style.background = 'rgba(255, 255, 255, 0.5)';
+        // Tab switching
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
                 
-                setTimeout(() => {
-                    btn.textContent = '✓ Analisis Selesai!';
-                    btn.style.background = 'white';
-                    
-                    setTimeout(() => {
-                        alert('Fitur analisis akan segera tersedia! Terima kasih sudah mencoba.');
-                        btn.textContent = '🔍 Cek Berita';
-                    }, 1000);
-                }, 2000);
-            } else {
-                alert('Silakan masukkan teks berita atau URL terlebih dahulu.');
-            }
-        });
-
-        // Parallax effect untuk orbs
-        document.addEventListener('mousemove', (e) => {
-            const orbs = document.querySelectorAll('.orb');
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            orbs.forEach((orb, index) => {
-                const speed = (index + 1) * 20;
-                orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+                tab.classList.add('active');
+                const tabName = tab.dataset.tab;
+                document.getElementById(tabName + '-tab').classList.add('active');
             });
         });
 
-        // Animasi counter untuk stats dengan durasi lebih lama
+        // File upload
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+        const preview = document.getElementById('preview');
+        const previewImg = document.getElementById('previewImg');
+        const removeBtn = document.getElementById('removeBtn');
+        let uploadedFile = null;
+
+        uploadZone.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) handleFile(file);
+        });
+
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                handleFile(file);
+            }
+        });
+
+        function handleFile(file) {
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Ukuran file terlalu besar! Maksimal 5MB.');
+                return;
+            }
+
+            uploadedFile = file;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                preview.classList.add('show');
+                uploadZone.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        removeBtn.addEventListener('click', () => {
+            uploadedFile = null;
+            preview.classList.remove('show');
+            uploadZone.style.display = 'flex';
+            fileInput.value = '';
+        });
+
+        // Check button
+        const checkBtn = document.getElementById('checkBtn');
+        const modal = document.getElementById('modal');
+        const closeBtn = document.getElementById('closeBtn');
+
+        checkBtn.addEventListener('click', function() {
+            const activeTab = document.querySelector('.tab.active').dataset.tab;
+            const textInput = document.getElementById('textInput').value;
+            
+            let hasInput = false;
+            if (activeTab === 'text' && textInput.trim()) {
+                hasInput = true;
+            } else if (activeTab === 'image' && uploadedFile) {
+                hasInput = true;
+            }
+            
+            if (hasInput) {
+                checkBtn.textContent = '⏳ Menganalisis...';
+                checkBtn.style.background = 'rgba(255, 255, 255, 0.5)';
+                checkBtn.disabled = true;
+                
+                setTimeout(() => {
+                    checkBtn.textContent = '✅ Analisis Selesai!';
+                    checkBtn.style.background = '#10b981';
+                    
+                    setTimeout(() => {
+                        checkBtn.textContent = '🔍 Cek Berita';
+                        checkBtn.style.background = 'white';
+                        checkBtn.disabled = false;
+                        showResult();
+                    }, 1000);
+                }, 2500);
+            } else {
+                const message = activeTab === 'text' 
+                    ? 'Silakan masukkan teks berita atau URL terlebih dahulu.' 
+                    : 'Silakan upload screenshot berita terlebih dahulu.';
+                alert(message);
+            }
+        });
+
+        function showResult() {
+            const scores = [85, 92, 78, 45, 35, 68];
+            const score = scores[Math.floor(Math.random() * scores.length)];
+            
+            const resultIcon = document.getElementById('resultIcon');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultScore = document.getElementById('resultScore');
+            const resultDesc = document.getElementById('resultDesc');
+            const statusBadge = document.getElementById('statusBadge');
+            const trustLevel = document.getElementById('trustLevel');
+            const sourceCredible = document.getElementById('sourceCredible');
+            const analysisTime = document.getElementById('analysisTime');
+            const progressFill = document.getElementById('progressFill');
+            
+            if (score >= 75) {
+                resultIcon.textContent = '✅';
+                resultTitle.textContent = 'Berita Terverifikasi';
+                resultDesc.textContent = 'Berita ini memiliki tingkat kredibilitas tinggi dan dapat dipercaya.';
+                statusBadge.textContent = 'Terverifikasi';
+                statusBadge.className = 'status-badge status-verified';
+                trustLevel.textContent = 'Tinggi';
+                sourceCredible.textContent = '✓ Ya';
+            } else if (score >= 50) {
+                resultIcon.textContent = '⚠️';
+                resultTitle.textContent = 'Berita Meragukan';
+                resultDesc.textContent = 'Berita ini memiliki kredibilitas sedang. Perlu verifikasi lebih lanjut.';
+                statusBadge.textContent = 'Meragukan';
+                statusBadge.className = 'status-badge status-suspicious';
+                trustLevel.textContent = 'Sedang';
+                sourceCredible.textContent = '⚠️ Partial';
+            } else {
+                resultIcon.textContent = '❌';
+                resultTitle.textContent = 'Potensi Hoax Tinggi';
+                resultDesc.textContent = 'Berita ini memiliki indikasi kuat sebagai hoax atau misinformasi.';
+                statusBadge.textContent = 'Hoax';
+                statusBadge.className = 'status-badge status-hoax';
+                trustLevel.textContent = 'Rendah';
+                sourceCredible.textContent = '✗ Tidak';
+            }
+            
+            resultScore.textContent = score + '%';
+            analysisTime.textContent = (Math.random() * 2 + 1).toFixed(1) + ' detik';
+            
+            modal.classList.add('show');
+            
+            setTimeout(() => {
+                progressFill.style.width = score + '%';
+            }, 300);
+        }
+
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('show');
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                modal.classList.remove('show');
+            }
+        });
+
+        // Parallax effect
+        document.addEventListener('mousemove', (e) => {
+            const shapes = document.querySelectorAll('.shape');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 20;
+                shape.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+            });
+        });
+
+        // Counter animation
         const animateCounters = () => {
             const counters = document.querySelectorAll('.stat-number');
             
             counters.forEach(counter => {
                 const target = counter.textContent;
-                const isPercentage = target.includes('%');
-                const isPlus = target.includes('+');
                 const isSlash = target.includes('/');
                 
-                if (isSlash) return; // Skip 24/7
+                if (isSlash) return;
                 
-                let numericValue = parseInt(target.replace(/[^\d]/g, ''));
+                let numericValue;
+                let suffix = '';
+                
+                if (target.includes('M')) {
+                    numericValue = parseFloat(target.replace(/[^\d.]/g, '')) * 1000000;
+                    suffix = 'M+';
+                } else if (target.includes('K')) {
+                    numericValue = parseFloat(target.replace(/[^\d.]/g, '')) * 1000;
+                    suffix = 'K+';
+                } else if (target.includes('%')) {
+                    numericValue = parseInt(target.replace(/[^\d]/g, ''));
+                    suffix = '%';
+                } else {
+                    numericValue = parseInt(target.replace(/[^\d]/g, ''));
+                }
+                
                 let current = 0;
-                const increment = numericValue / 150; // Lebih lambat (dari 50 jadi 150)
-                const duration = 3000; // 3 detik
-                const stepTime = duration / 150;
+                const duration = 2500;
+                const steps = 60;
+                const increment = numericValue / steps;
+                const stepTime = duration / steps;
                 
                 const updateCounter = () => {
                     current += increment;
                     if (current < numericValue) {
-                        if (target.includes('M')) {
-                            counter.textContent = (current / 1000000).toFixed(1) + 'M' + (isPlus ? '+' : '');
-                        } else if (target.includes('K')) {
-                            counter.textContent = Math.floor(current / 1000) + 'K' + (isPlus ? '+' : '');
+                        if (suffix === 'M+') {
+                            counter.textContent = (current / 1000000).toFixed(1) + 'M+';
+                        } else if (suffix === 'K+') {
+                            counter.textContent = Math.floor(current / 1000) + 'K+';
+                        } else if (suffix === '%') {
+                            counter.textContent = Math.floor(current) + '%';
                         } else {
-                            counter.textContent = Math.floor(current) + (isPercentage ? '%' : '');
+                            counter.textContent = Math.floor(current) + suffix;
                         }
                         setTimeout(updateCounter, stepTime);
                     } else {
@@ -1137,7 +1987,6 @@
             });
         };
 
-        // Trigger counter animation when stats section is visible
         const statsObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1145,12 +1994,59 @@
                     statsObserver.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.3 });
 
-        const statsSection = document.querySelector('.stats-section');
-        if (statsSection) {
-            statsObserver.observe(statsSection);
+        const statsWrapper = document.querySelector('.stats-wrapper');
+        if (statsWrapper) {
+            statsObserver.observe(statsWrapper);
         }
+
+        // Ripple effect
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.5)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple-effect 0.6s ease-out';
+                ripple.style.pointerEvents = 'none';
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Feature cards animation
+        const featureCards = document.querySelectorAll('.feature-card');
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        featureCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            cardObserver.observe(card);
+        });
     </script>
 </body>
 </html>
