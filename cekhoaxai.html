@@ -2156,7 +2156,7 @@ Tips:
 
         checkBtn.addEventListener('click', function() {
             const activeTab = document.querySelector('.tab.active').dataset.tab;
-            const textInput = document.getElementById('textInput').value.trim();
+            const textInput = document.getElementById('textInput').value.trim().toLowerCase();
             
             let hasInput = false;
             if (activeTab === 'text' && textInput) {
@@ -2173,14 +2173,16 @@ Tips:
                     
                     setTimeout(() => {
                         // Check for demo codes
-                        if (textInput.toLowerCase() === 'hoaxcheck') {
+                        if (textInput === 'hoax1') {
                             showResult(35); // Score < 50 untuk hoax
-                        } else if (textInput.toLowerCase() === 'meragukancheck') {
+                        } else if (textInput === 'ragu2') {
                             showResult(65); // Score 50-74 untuk meragukan
-                        } else if (textInput.toLowerCase() === 'terverifikasicheck') {
+                        } else if (textInput === 'terverifikasi3') {
                             showResult(88); // Score >= 75 untuk terverifikasi
+                        } else if (activeTab === 'image' && uploadedFile) {
+                            showResult(); // Random score untuk image
                         } else {
-                            showResult(); // Random score
+                            showResult(); // Random score untuk input lainnya
                         }
                     }, 300);
                 }, 3000);
@@ -2192,9 +2194,15 @@ Tips:
             }
         });
 
-        function showResult() {
-            const scores = [85, 92, 78, 45, 35, 68];
-            const score = scores[Math.floor(Math.random() * scores.length)];
+        function showResult(demoScore = null) {
+            let score;
+            
+            if (demoScore !== null) {
+                score = demoScore;
+            } else {
+                const scores = [85, 92, 78, 45, 35, 68];
+                score = scores[Math.floor(Math.random() * scores.length)];
+            }
             
             const resultIcon = document.getElementById('resultIcon');
             const resultTitle = document.getElementById('resultTitle');
