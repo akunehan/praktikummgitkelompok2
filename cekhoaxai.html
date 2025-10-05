@@ -318,28 +318,19 @@
             line-height: 1.1;
             margin-bottom: 20px;
             color: white;
-            text-shadow: 0 4px 20px rgba(14, 165, 233, 0.4);
-            position: relative;
-            background: linear-gradient(90deg, 
-                rgba(255, 255, 255, 0.6) 0%, 
-                rgba(255, 255, 255, 1) 25%, 
-                rgba(255, 255, 255, 1) 50%, 
-                rgba(255, 255, 255, 0.6) 75%, 
-                rgba(255, 255, 255, 0.6) 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: shine 3s linear infinite;
-        }
-
-        @keyframes shine {
-            0% {
-                background-position: 200% center;
-            }
-            100% {
-                background-position: -200% center;
-            }
+            text-shadow: 
+                0 1px 0 #ccc,
+                0 2px 0 #c9c9c9,
+                0 3px 0 #bbb,
+                0 4px 0 #b9b9b9,
+                0 5px 0 #aaa,
+                0 6px 1px rgba(0,0,0,.1),
+                0 0 5px rgba(0,0,0,.1),
+                0 1px 3px rgba(0,0,0,.3),
+                0 3px 5px rgba(0,0,0,.2),
+                0 5px 10px rgba(0,0,0,.25),
+                0 10px 10px rgba(0,0,0,.2),
+                0 20px 20px rgba(0,0,0,.15);
         }
 
         .hero-subtitle {
@@ -2165,10 +2156,10 @@ Tips:
 
         checkBtn.addEventListener('click', function() {
             const activeTab = document.querySelector('.tab.active').dataset.tab;
-            const textInput = document.getElementById('textInput').value;
+            const textInput = document.getElementById('textInput').value.trim();
             
             let hasInput = false;
-            if (activeTab === 'text' && textInput.trim()) {
+            if (activeTab === 'text' && textInput) {
                 hasInput = true;
             } else if (activeTab === 'image' && uploadedFile) {
                 hasInput = true;
@@ -2181,7 +2172,16 @@ Tips:
                     loadingModal.classList.remove('show');
                     
                     setTimeout(() => {
-                        showResult();
+                        // Check for demo codes
+                        if (textInput.toLowerCase() === 'hoaxcheck') {
+                            showResult(35); // Score < 50 untuk hoax
+                        } else if (textInput.toLowerCase() === 'meragukancheck') {
+                            showResult(65); // Score 50-74 untuk meragukan
+                        } else if (textInput.toLowerCase() === 'terverifikasicheck') {
+                            showResult(88); // Score >= 75 untuk terverifikasi
+                        } else {
+                            showResult(); // Random score
+                        }
                     }, 300);
                 }, 3000);
             } else {
