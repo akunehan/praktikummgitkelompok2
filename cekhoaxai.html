@@ -32,7 +32,6 @@
             position: relative;
         }
 
-        /* Background Effects */
         .bg-effects {
             position: fixed;
             top: 0;
@@ -161,7 +160,6 @@
             animation-delay: -4s;
         }
 
-        /* Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -170,7 +168,6 @@
             z-index: 1;
         }
 
-        /* Header */
         header {
             position: fixed;
             top: 0;
@@ -273,7 +270,6 @@
             box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
         }
 
-        /* Hero Section */
         .hero {
             padding: 160px 0 100px;
             min-height: 100vh;
@@ -478,7 +474,6 @@
             50% { transform: translateY(-10px); }
         }
 
-        /* Section */
         section {
             padding: 100px 0;
             opacity: 0;
@@ -511,7 +506,6 @@
             margin: 0 auto;
         }
 
-        /* Features Grid */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -591,7 +585,6 @@
             font-size: 15px;
         }
 
-        /* Stats Section */
         .stats-wrapper {
             background: var(--glass-bg);
             backdrop-filter: blur(30px);
@@ -649,7 +642,6 @@
             font-weight: 600;
         }
 
-        /* How It Works */
         .how-it-works-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -709,7 +701,6 @@
             line-height: 1.7;
         }
 
-        /* Demo Area */
         .demo-box {
             background: var(--glass-bg);
             backdrop-filter: blur(30px);
@@ -720,7 +711,14 @@
         }
 
         .demo-box h3 {
-            margin-bottom: 25px;
+            margin-bottom: 15px;
+        }
+
+        .demo-box > p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
 
         .tabs {
@@ -841,7 +839,6 @@
 
         .preview {
             display: none;
-            margin-top: 15px;
         }
 
         .preview.show {
@@ -895,7 +892,6 @@
             cursor: not-allowed;
         }
 
-        /* News Ticker */
         .ticker {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
@@ -931,7 +927,6 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
-        /* Testimonials */
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -1008,7 +1003,6 @@
             margin-top: 15px;
         }
 
-        /* Modal */
         .modal {
             position: fixed;
             top: 0;
@@ -1218,7 +1212,215 @@
             border: 1px solid var(--glass-border);
         }
 
-        /* Footer */
+        .detail-btn {
+            width: 100%;
+            padding: 16px;
+            margin-top: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .detail-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
+        }
+
+        .loading-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2500;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .loading-modal.show {
+            display: flex;
+        }
+
+        .loading-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            border-radius: 30px;
+            padding: 60px;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 60px rgba(14, 165, 233, 0.4);
+            max-width: 500px;
+            position: relative;
+        }
+
+        .loader {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .loader-circle {
+            width: 100%;
+            height: 100%;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loader-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .loading-title {
+            font-size: 28px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 20px rgba(14, 165, 233, 0.4);
+        }
+
+        .loading-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .loading-dots {
+            display: inline-block;
+        }
+
+        .loading-dots span {
+            animation: blink 1.4s infinite;
+        }
+
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes blink {
+            0%, 80%, 100% { opacity: 0; }
+            40% { opacity: 1; }
+        }
+
+        .coming-soon-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .coming-soon-modal.show {
+            display: flex;
+        }
+
+        .coming-soon-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            border-radius: 30px;
+            padding: 60px 80px;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 60px rgba(14, 165, 233, 0.4);
+            animation: bounceIn 0.5s ease;
+            position: relative;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .coming-soon-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .coming-soon-title {
+            font-size: 42px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 20px rgba(14, 165, 233, 0.4);
+        }
+
+        .coming-soon-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .coming-soon-close {
+            padding: 15px 40px;
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+        }
+
+        .coming-soon-close:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(255, 255, 255, 0.4);
+        }
+
         footer {
             padding: 80px 0 40px;
             background: rgba(12, 74, 110, 0.3);
@@ -1281,7 +1483,6 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
-        /* Responsive */
         @media (max-width: 1024px) {
             .container, .header-content {
                 padding: 0 40px;
@@ -1351,7 +1552,6 @@
     </style>
 </head>
 <body>
-    <!-- Background Effects -->
     <div class="bg-effects">
         <div class="animated-gradient"></div>
         <div class="floating-shapes">
@@ -1364,7 +1564,6 @@
         <div class="morph-shape morph-2"></div>
     </div>
 
-    <!-- Header -->
     <header id="header">
         <div class="header-content">
             <div class="logo">TruthGuard AI</div>
@@ -1374,13 +1573,13 @@
                     <li><a href="#features">Fitur</a></li>
                     <li><a href="#how">Cara Kerja</a></li>
                     <li><a href="#about">Tentang</a></li>
+                    <li><a href="#" id="newsLink">Berita Terbaru</a></li>
                 </ul>
             </nav>
-            <button class="cta-btn">Mulai Sekarang</button>
+            <button class="cta-btn" id="loginBtn">Login/Register</button>
         </div>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-grid">
@@ -1407,7 +1606,6 @@
         </div>
     </section>
 
-    <!-- Features Section -->
     <section id="features">
         <div class="container">
             <div class="section-header">
@@ -1449,7 +1647,6 @@
         </div>
     </section>
 
-    <!-- Stats Section -->
     <section>
         <div class="container">
             <div class="stats-wrapper">
@@ -1475,7 +1672,6 @@
         </div>
     </section>
 
-    <!-- How It Works Section -->
     <section id="how">
         <div class="container">
             <div class="section-header">
@@ -1507,13 +1703,19 @@
                     </div>
                 </div>
                 <div class="demo-box">
-                    <h3>Coba Sekarang</h3>
+                    <h3>Coba Verifikasi Berita</h3>
+                    <p>Masukkan konten berita yang ingin Anda verifikasi. AI kami akan menganalisis kredibilitas, sumber, dan pola bahasa untuk mendeteksi potensi hoax.</p>
                     <div class="tabs">
                         <button class="tab active" data-tab="text">📝 Teks/URL</button>
                         <button class="tab" data-tab="image">🖼️ Screenshot</button>
                     </div>
                     <div class="tab-content active" id="text-tab">
-                        <textarea id="textInput" placeholder="Paste teks berita atau URL di sini..."></textarea>
+                        <textarea id="textInput" placeholder="Contoh: Paste artikel berita, URL, atau teks yang ingin diverifikasi...
+
+Tips:
+• Paste teks lengkap untuk hasil lebih akurat
+• URL artikel akan dianalisis otomatis
+• Minimal 50 karakter untuk analisis optimal"></textarea>
                     </div>
                     <div class="tab-content" id="image-tab">
                         <div class="upload-zone" id="uploadZone">
@@ -1527,13 +1729,12 @@
                             <button class="remove-btn" id="removeBtn">🗑️ Hapus Gambar</button>
                         </div>
                     </div>
-                    <button class="check-button" id="checkBtn">🔍 Cek Berita</button>
+                    <button class="check-button" id="checkBtn">🔍 Mulai Analisis</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- News Ticker -->
     <section>
         <div class="ticker">
             <div class="ticker-track">
@@ -1553,7 +1754,6 @@
         </div>
     </section>
 
-    <!-- Testimonials Section -->
     <section>
         <div class="container">
             <div class="section-header">
@@ -1598,18 +1798,24 @@
         </div>
     </section>
 
-    <!-- About Section -->
     <section id="about">
         <div class="container">
-            <div class="stats-wrapper">
-                <h2 style="text-align: center;">Tentang TruthGuard AI</h2>
-                <p style="color: rgba(255, 255, 255, 0.9); text-align: center; line-height: 1.8; margin-top: 20px;">TruthGuard AI adalah platform verifikasi berita berbasis kecerdasan buatan yang dikembangkan untuk membantu masyarakat Indonesia dalam mengidentifikasi berita hoax dan misinformasi. Dengan teknologi Natural Language Processing (NLP) dan Deep Learning terdepan, kami berkomitmen untuk menciptakan ekosistem informasi yang lebih sehat dan terpercaya.</p>
-                <p style="color: rgba(255, 255, 255, 0.9); text-align: center; line-height: 1.8; margin-top: 20px;">Tim kami terdiri dari para ahli AI, jurnalis berpengalaman, dan fact-checker profesional yang bekerja sama untuk menghadirkan solusi verifikasi berita paling akurat di Indonesia.</p>
+            <div class="stats-wrapper" style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.3) 0%, rgba(56, 189, 248, 0.25) 100%); box-shadow: 0 30px 80px rgba(14, 165, 233, 0.4);">
+                <h2 style="text-align: center; color: white; text-shadow: 0 6px 30px rgba(14, 165, 233, 0.6); margin-bottom: 30px;">Tentang TruthGuard AI</h2>
+                <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); padding: 40px; border-radius: 25px; border: 2px solid rgba(255, 255, 255, 0.3); margin-bottom: 25px;">
+                    <p style="color: white; text-align: center; line-height: 1.9; font-size: 17px; font-weight: 500; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);">
+                        TruthGuard AI adalah platform verifikasi berita berbasis kecerdasan buatan yang dikembangkan untuk membantu masyarakat Indonesia dalam mengidentifikasi berita hoax dan misinformasi. Dengan teknologi Natural Language Processing (NLP) dan Deep Learning terdepan, kami berkomitmen untuk menciptakan ekosistem informasi yang lebih sehat dan terpercaya.
+                    </p>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); padding: 40px; border-radius: 25px; border: 2px solid rgba(255, 255, 255, 0.3);">
+                    <p style="color: white; text-align: center; line-height: 1.9; font-size: 17px; font-weight: 500; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);">
+                        Tim kami terdiri dari para ahli AI, jurnalis berpengalaman, dan fact-checker profesional yang bekerja sama untuk menghadirkan solusi verifikasi berita paling akurat di Indonesia. Bergabunglah dengan ribuan pengguna yang telah mempercayai TruthGuard AI untuk melindungi diri dari penyebaran informasi yang menyesatkan.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-grid">
@@ -1651,7 +1857,6 @@
         </div>
     </footer>
 
-    <!-- Result Modal -->
     <div class="modal" id="modal">
         <div class="modal-content">
             <button class="close-btn" id="closeBtn">×</button>
@@ -1687,11 +1892,33 @@
                 <span class="tag">📊 NLP Verified</span>
                 <span class="tag">🎯 Cross-Referenced</span>
             </div>
+            <button class="detail-btn" id="detailBtn">📋 Lihat Detail Lengkap</button>
+        </div>
+    </div>
+
+    <div class="loading-modal" id="loadingModal">
+        <div class="loading-content">
+            <div class="loader">
+                <div class="loader-circle"></div>
+                <div class="loader-icon">🔍</div>
+            </div>
+            <h3 class="loading-title">Menganalisis Berita</h3>
+            <p class="loading-text">
+                AI sedang memverifikasi kredibilitas<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
+            </p>
+        </div>
+    </div>
+
+    <div class="coming-soon-modal" id="comingSoonModal">
+        <div class="coming-soon-content">
+            <div class="coming-soon-icon">🚀</div>
+            <h2 class="coming-soon-title">Coming Soon!</h2>
+            <p class="coming-soon-text">Fitur ini sedang dalam pengembangan dan akan segera hadir untuk Anda.</p>
+            <button class="coming-soon-close" id="comingSoonClose">Tutup</button>
         </div>
     </div>
 
     <script>
-        // Generate particles
         const particlesContainer = document.getElementById('particles');
         for (let i = 0; i < 30; i++) {
             const particle = document.createElement('div');
@@ -1702,7 +1929,6 @@
             particlesContainer.appendChild(particle);
         }
 
-        // Header scroll effect
         window.addEventListener('scroll', () => {
             const header = document.getElementById('header');
             if (window.scrollY > 50) {
@@ -1712,7 +1938,6 @@
             }
         });
 
-        // Intersection Observer for sections
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1730,7 +1955,6 @@
             observer.observe(section);
         });
 
-        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1744,7 +1968,6 @@
             });
         });
 
-        // Tab switching
         const tabs = document.querySelectorAll('.tab');
         const tabContents = document.querySelectorAll('.tab-content');
         
@@ -1759,7 +1982,6 @@
             });
         });
 
-        // File upload
         const uploadZone = document.getElementById('uploadZone');
         const fileInput = document.getElementById('fileInput');
         const preview = document.getElementById('preview');
@@ -1815,10 +2037,38 @@
             fileInput.value = '';
         });
 
-        // Check button
         const checkBtn = document.getElementById('checkBtn');
         const modal = document.getElementById('modal');
         const closeBtn = document.getElementById('closeBtn');
+        const loadingModal = document.getElementById('loadingModal');
+        const comingSoonModal = document.getElementById('comingSoonModal');
+        const comingSoonClose = document.getElementById('comingSoonClose');
+        const newsLink = document.getElementById('newsLink');
+        const loginBtn = document.getElementById('loginBtn');
+        const detailBtn = document.getElementById('detailBtn');
+
+        newsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            comingSoonModal.classList.add('show');
+        });
+
+        loginBtn.addEventListener('click', () => {
+            comingSoonModal.classList.add('show');
+        });
+
+        detailBtn.addEventListener('click', () => {
+            comingSoonModal.classList.add('show');
+        });
+
+        comingSoonClose.addEventListener('click', () => {
+            comingSoonModal.classList.remove('show');
+        });
+
+        comingSoonModal.addEventListener('click', (e) => {
+            if (e.target === comingSoonModal) {
+                comingSoonModal.classList.remove('show');
+            }
+        });
 
         checkBtn.addEventListener('click', function() {
             const activeTab = document.querySelector('.tab.active').dataset.tab;
@@ -1832,21 +2082,15 @@
             }
             
             if (hasInput) {
-                checkBtn.textContent = '⏳ Menganalisis...';
-                checkBtn.style.background = 'rgba(255, 255, 255, 0.5)';
-                checkBtn.disabled = true;
+                loadingModal.classList.add('show');
                 
                 setTimeout(() => {
-                    checkBtn.textContent = '✅ Analisis Selesai!';
-                    checkBtn.style.background = '#10b981';
+                    loadingModal.classList.remove('show');
                     
                     setTimeout(() => {
-                        checkBtn.textContent = '🔍 Cek Berita';
-                        checkBtn.style.background = 'white';
-                        checkBtn.disabled = false;
                         showResult();
-                    }, 1000);
-                }, 2500);
+                    }, 300);
+                }, 3000);
             } else {
                 const message = activeTab === 'text' 
                     ? 'Silakan masukkan teks berita atau URL terlebih dahulu.' 
@@ -1876,7 +2120,7 @@
                 statusBadge.textContent = 'Terverifikasi';
                 statusBadge.className = 'status-badge status-verified';
                 trustLevel.textContent = 'Tinggi';
-                sourceCredible.textContent = '✓ Ya';
+                sourceCredible.textContent = '✔ Ya';
             } else if (score >= 50) {
                 resultIcon.textContent = '⚠️';
                 resultTitle.textContent = 'Berita Meragukan';
@@ -1918,10 +2162,11 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 modal.classList.remove('show');
+                comingSoonModal.classList.remove('show');
+                loadingModal.classList.remove('show');
             }
         });
 
-        // Parallax effect
         document.addEventListener('mousemove', (e) => {
             const shapes = document.querySelectorAll('.shape');
             const x = e.clientX / window.innerWidth;
@@ -1933,7 +2178,6 @@
             });
         });
 
-        // Counter animation
         const animateCounters = () => {
             const counters = document.querySelectorAll('.stat-number');
             
@@ -2001,7 +2245,6 @@
             statsObserver.observe(statsWrapper);
         }
 
-        // Ripple effect
         document.querySelectorAll('button').forEach(button => {
             button.addEventListener('click', function(e) {
                 const ripple = document.createElement('span');
@@ -2028,7 +2271,6 @@
             });
         });
 
-        // Feature cards animation
         const featureCards = document.querySelectorAll('.feature-card');
         const cardObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry, index) => {
