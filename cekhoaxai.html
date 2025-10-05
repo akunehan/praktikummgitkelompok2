@@ -270,6 +270,81 @@
             box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
         }
 
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 3px;
+            background: white;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: rgba(14, 165, 233, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 100px 30px 30px;
+            transition: right 0.4s ease;
+            z-index: 999;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .mobile-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            display: block;
+            padding: 10px 0;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu a:hover {
+            transform: translateX(10px);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .mobile-menu .cta-btn {
+            width: 100%;
+            margin-top: 20px;
+            text-align: center;
+        }
+
         .hero {
             padding: 160px 0 100px;
             min-height: 100vh;
@@ -319,18 +394,19 @@
             margin-bottom: 20px;
             color: white;
             text-shadow: 
-                0 1px 0 #ccc,
-                0 2px 0 #c9c9c9,
-                0 3px 0 #bbb,
-                0 4px 0 #b9b9b9,
-                0 5px 0 #aaa,
-                0 6px 1px rgba(0,0,0,.1),
-                0 0 5px rgba(0,0,0,.1),
-                0 1px 3px rgba(0,0,0,.3),
-                0 3px 5px rgba(0,0,0,.2),
-                0 5px 10px rgba(0,0,0,.25),
-                0 10px 10px rgba(0,0,0,.2),
-                0 20px 20px rgba(0,0,0,.15);
+                0 1px 0 rgba(200, 200, 200, 0.8),
+                0 2px 0 rgba(190, 190, 190, 0.7),
+                0 3px 0 rgba(180, 180, 180, 0.6),
+                0 4px 0 rgba(170, 170, 170, 0.5),
+                0 5px 0 rgba(160, 160, 160, 0.4);
+        }
+
+        .hero-title-mobile {
+            display: none;
+        }
+
+        .hero-title-desktop {
+            display: block;
         }
 
         .hero-subtitle {
@@ -922,6 +998,12 @@
         @keyframes scroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
+        }
+
+        @media (max-width: 768px) {
+            .ticker-track {
+                animation: scroll 15s linear infinite;
+            }
         }
 
         .ticker-item {
@@ -1518,6 +1600,7 @@
 
             .hero-grid, .how-it-works-grid {
                 grid-template-columns: 1fr;
+                gap: 40px;
             }
 
             .features-grid {
@@ -1531,6 +1614,10 @@
             h2 {
                 font-size: 42px;
             }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 768px) {
@@ -1538,20 +1625,59 @@
                 padding: 0 20px;
             }
 
-            nav ul {
+            nav {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .header-content .cta-btn {
                 display: none;
             }
 
             .hero {
                 padding: 120px 0 60px;
+                min-height: auto;
+            }
+
+            .hero-grid {
+                gap: 30px;
             }
 
             h1 {
-                font-size: 42px;
+                font-size: 36px;
+                text-shadow: 
+                    0 1px 0 #ccc,
+                    0 2px 0 #c9c9c9,
+                    0 3px 0 #bbb,
+                    0 4px 1px rgba(0,0,0,.1),
+                    0 0 5px rgba(0,0,0,.1),
+                    0 1px 3px rgba(0,0,0,.3),
+                    0 3px 5px rgba(0,0,0,.2);
+            }
+
+            .hero-title-mobile {
+                display: block;
+                font-size: 48px;
+                line-height: 1.2;
+            }
+
+            .hero-title-desktop {
+                display: none;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
             }
 
             h2 {
-                font-size: 36px;
+                font-size: 32px;
+            }
+
+            .section-subtitle {
+                font-size: 16px;
             }
 
             .features-grid, .stats-grid, .testimonials-grid {
@@ -1560,14 +1686,343 @@
 
             .footer-grid {
                 grid-template-columns: 1fr;
+                gap: 40px;
             }
 
             .btn-group {
                 flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                padding: 16px 32px;
+                font-size: 16px;
             }
 
             .stats-wrapper {
                 padding: 40px 20px;
+            }
+
+            .feature-card-hero {
+                padding: 30px;
+            }
+
+            .icon-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .demo-box {
+                padding: 25px;
+            }
+
+            .modal-content {
+                padding: 30px;
+                width: 95%;
+            }
+
+            .result-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 35px;
+                margin-bottom: 15px;
+            }
+
+            .result-title {
+                font-size: 22px;
+                margin-bottom: 10px;
+            }
+
+            .result-score {
+                font-size: 32px;
+                margin-bottom: 15px;
+            }
+
+            .result-desc {
+                font-size: 14px;
+                margin-bottom: 20px;
+            }
+
+            .result-details {
+                padding: 20px;
+                margin-top: 20px;
+            }
+
+            .detail {
+                padding: 12px 0;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .detail-label {
+                font-size: 13px;
+            }
+
+            .detail-value {
+                font-size: 14px;
+            }
+
+            .status-badge {
+                font-size: 12px;
+                padding: 5px 12px;
+            }
+
+            .tags {
+                gap: 8px;
+                margin-top: 15px;
+            }
+
+            .tag {
+                font-size: 11px;
+                padding: 6px 12px;
+            }
+
+            .detail-btn {
+                padding: 14px;
+                font-size: 14px;
+                margin-top: 20px;
+            }
+
+            .coming-soon-content {
+                padding: 40px 25px;
+                width: 90%;
+            }
+
+            .coming-soon-title {
+                font-size: 28px;
+                margin-bottom: 12px;
+            }
+
+            .coming-soon-icon {
+                font-size: 50px;
+                margin-bottom: 15px;
+            }
+
+            .coming-soon-text {
+                font-size: 15px;
+                margin-bottom: 25px;
+            }
+
+            .coming-soon-close {
+                padding: 12px 35px;
+                font-size: 14px;
+            }
+
+            .loading-content {
+                padding: 40px 25px;
+                width: 90%;
+            }
+
+            .loader {
+                width: 90px;
+                height: 90px;
+                margin-bottom: 20px;
+            }
+
+            .loader-circle {
+                border-width: 3px;
+            }
+
+            .loader-icon {
+                font-size: 36px;
+            }
+
+            .loading-title {
+                font-size: 22px;
+                margin-bottom: 12px;
+            }
+
+            .loading-text {
+                font-size: 14px;
+            }
+
+            .close-btn {
+                width: 35px;
+                height: 35px;
+                top: 15px;
+                right: 15px;
+                font-size: 20px;
+            }
+
+            .progress-bar {
+                height: 10px;
+                margin-top: 8px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .badge {
+                font-size: 12px;
+            }
+
+            .feature-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 30px;
+            }
+
+            .step {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .step-number {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .hero-title-mobile {
+                font-size: 42px !important;
+                line-height: 1.15 !important;
+            }
+
+            h2 {
+                font-size: 26px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .stat-number {
+                font-size: 42px;
+            }
+
+            .stat-label {
+                font-size: 14px;
+            }
+
+            .testimonial {
+                padding: 25px;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                width: 100%;
+            }
+
+            .modal-content {
+                padding: 25px 20px;
+                width: 92%;
+            }
+
+            .result-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 30px;
+                margin-bottom: 12px;
+            }
+
+            .result-title {
+                font-size: 20px;
+            }
+
+            .result-score {
+                font-size: 28px;
+            }
+
+            .result-desc {
+                font-size: 13px;
+            }
+
+            .result-details {
+                padding: 15px;
+            }
+
+            .detail {
+                padding: 10px 0;
+            }
+
+            .detail-label, .detail-value {
+                font-size: 12px;
+            }
+
+            .status-badge {
+                font-size: 11px;
+                padding: 4px 10px;
+            }
+
+            .tag {
+                font-size: 10px;
+                padding: 5px 10px;
+            }
+
+            .detail-btn {
+                padding: 12px;
+                font-size: 13px;
+            }
+
+            .close-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 18px;
+                top: 10px;
+                right: 10px;
+            }
+
+            .coming-soon-content {
+                padding: 30px 20px;
+                width: 92%;
+            }
+
+            .coming-soon-icon {
+                font-size: 45px;
+                margin-bottom: 12px;
+            }
+
+            .coming-soon-title {
+                font-size: 24px;
+            }
+
+            .coming-soon-text {
+                font-size: 14px;
+                margin-bottom: 20px;
+            }
+
+            .coming-soon-close {
+                padding: 10px 30px;
+                font-size: 13px;
+            }
+
+            .loading-content {
+                padding: 30px 20px;
+                width: 92%;
+            }
+
+            .loader {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 18px;
+            }
+
+            .loader-icon {
+                font-size: 32px;
+            }
+
+            .loading-title {
+                font-size: 20px;
+            }
+
+            .loading-text {
+                font-size: 13px;
+            }
+
+            .progress-bar {
+                height: 8px;
             }
         }
 
@@ -1606,15 +2061,33 @@
                 </ul>
             </nav>
             <button class="cta-btn" id="loginBtn">Login/Register</button>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="#home" class="mobile-link">Beranda</a></li>
+            <li><a href="#features" class="mobile-link">Fitur</a></li>
+            <li><a href="#how" class="mobile-link">Cara Kerja</a></li>
+            <li><a href="#about" class="mobile-link">Tentang</a></li>
+            <li><a href="#" id="newsLinkMobile">Berita Terbaru</a></li>
+            <li><a href="#" id="botWaLinkMobile">Bot WA</a></li>
+        </ul>
+        <button class="cta-btn" id="loginBtnMobile">Login/Register</button>
+    </div>
 
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-grid">
                 <div class="hero-content">
                     <div class="badge">✨ Teknologi AI Terdepan</div>
-                    <h1>Lindungi Diri dari Berita Hoax</h1>
+                    <h1 class="hero-title-desktop">Lindungi Diri<br>dari Berita HOAX</h1>
+                    <h1 class="hero-title-mobile">Lindungi Diri<br>dari Berita HOAX</h1>
                     <p class="hero-subtitle">Teknologi AI terdepan untuk memverifikasi kebenaran berita dalam hitungan detik. Akurat, cepat, dan terpercaya.</p>
                     <div class="btn-group">
                         <button class="btn-primary" id="cekBeritaBtn">Cek Berita Sekarang</button>
@@ -2078,6 +2551,33 @@ Tips:
         const botWaLink = document.getElementById('botWaLink');
         const cekBeritaBtn = document.getElementById('cekBeritaBtn');
         const learnMoreBtn = document.getElementById('learnMoreBtn');
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const newsLinkMobile = document.getElementById('newsLinkMobile');
+        const botWaLinkMobile = document.getElementById('botWaLinkMobile');
+        const loginBtnMobile = document.getElementById('loginBtnMobile');
+
+        // Hamburger menu toggle
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            }
+        });
 
         // Tab switching untuk update instruksi
         tabs.forEach(tab => {
@@ -2122,6 +2622,26 @@ Tips:
         });
 
         loginBtn.addEventListener('click', () => {
+            comingSoonModal.classList.add('show');
+        });
+
+        loginBtnMobile.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            comingSoonModal.classList.add('show');
+        });
+
+        newsLinkMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            comingSoonModal.classList.add('show');
+        });
+
+        botWaLinkMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
             comingSoonModal.classList.add('show');
         });
 
